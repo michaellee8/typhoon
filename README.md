@@ -4,7 +4,7 @@
 
 A two-minute parody arcade game about the most Hong Kong feeling there is: staring at the Observatory's website at 6 a.m., praying the No. 8 goes up before you have to leave for work. In Cantonese and English, on desktop and phone.
 
-**[▶ Play in your browser](https://michaellee8.github.io/typhoon/)** · no install, about two minutes a round
+**[▶ Play in your browser](https://typhoon.learnmer.com)** · no install, about two minutes a round
 
 ![Steering a super typhoon onto Hong Kong while the boss's force field pulses](docs/gameplay.jpg)
 
@@ -86,7 +86,7 @@ Output goes to `artifacts/`.
 - **Analytics**: `public/analytics.js` is a no-op. Point `track()` at your own analytics if you host the game.
 - **Voice clips**: `pnpm voice` rebuilds `public/audio/hko/` with MiniMax TTS. It needs `MINIMAX_API_KEY` and [uv](https://docs.astral.sh/uv/). The script also holds the Cantonese pronunciation fixes the TTS needs.
 - **Icons and social cover**: `pnpm brand` rebuilds them from `public/logo.svg` and `public/favicon.svg`. It needs ImageMagick.
-- **Hosting**: `public/` is the whole site. `.github/workflows/pages.yml` publishes it to GitHub Pages on every push to `main`. Turn it on in Settings → Pages → Source: GitHub Actions.
+- **Hosting**: `public/` is the whole site; any static host works.
 
 ## Project layout
 
