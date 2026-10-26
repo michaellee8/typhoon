@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>李氏力場 · Mr. Li's Force Field｜駕駛颱風爭取八號風球</title>
+    <meta
+      name="description"
+      content="呢個風假，自己爭取。駕駛颱風，突破李氏力場，八點前掛八號，撐過三點救打工仔。免費網頁遊戲。"
+    />
+    <meta name="theme-color" content="#f3f1e8" />
+    <link rel="icon" href="favicon.ico" sizes="32x32" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="李氏力場 · Mr. Li's Force Field" />
+    <meta
+      property="og:description"
+      content="駕駛颱風，突破李氏力場，八點前掛八號，撐過三點救打工仔。Steer a typhoon past Mr. Li's Force Field and win Hong Kong a T8 day off."
+    />
+    <meta property="og:image" content="og-cover.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="A snapped tree beside the HKO No. 8 signal in a gale"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <header class="topbar">
+        <a
+          href="./"
+          class="brand"
+          data-i18n-aria="brandAria"
+          aria-label="李氏力場主頁"
+          ><picture
+            ><source
+              srcset="logo.svg"
+              media="(prefers-reduced-motion: reduce)" />
+            <img
+              class="brand-logo"
+              src="logo-animated.svg"
+              alt=""
+              width="64"
+              height="64" /></picture
+          ><span class="brand-name"
+            ><span data-i18n="brandMain" class="brand-main">李氏力場</span
+            ><small data-i18n="brandSub">Mr. Li's Force Field</small></span
+          ></a
+        >
+        <div class="ticker" role="status" aria-live="polite">
+          <b class="ticker-label" data-i18n="tickerLabel">快訊</b>
+          <span class="ticker-time mono" id="ticker-time">07:00</span>
+          <span class="ticker-text" id="ticker-text" data-i18n="tickerReady"
+            >南海出現熱帶氣旋，全港打工仔密切留意天文台消息。</span
+          >
+        </div>
+        <div class="topbar-actions">
+          <a
+            id="github"
+            class="icon-button github-button"
+            href="https://github.com/michaellee8/typhoon"
+            target="_blank"
+            rel="noopener"
+            data-i18n-aria="githubAria"
+            aria-label="GitHub 原始碼"
+            ><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"
+              /></svg
+          ></a>
+          <button
+            id="music"
+            class="icon-button sound-button music-button"
+            aria-pressed="true"
+            aria-label="關閉音樂"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path class="note" d="M9 17V5l11-2v12" />
+              <circle class="note-head" cx="6.5" cy="17.5" r="2.5" />
+              <circle class="note-head" cx="17.5" cy="15.5" r="2.5" />
+              <path class="slash" d="M3 3l18 18" />
+            </svg>
+          </button>
+          <button
+            id="sound"
+            class="icon-button sound-button"
+            aria-pressed="true"
+            aria-label="關閉聲音"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path class="speaker" d="M3 9h4l5-4v14l-5-4H3z" />
+              <path
+                class="waves"
+                d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"
+              />
+              <path class="cross" d="M16 9l6 6M22 9l-6 6" />
+            </svg>
+          </button>
+          <button
+            id="fullscreen"
+            class="icon-button fullscreen-button hidden"
+            aria-pressed="false"
+            data-i18n-aria="fullscreenAria"
+            aria-label="全螢幕"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path class="enter" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
+              <path class="exit" d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5" />
+            </svg>
+          </button>
+          <button
+            id="lang"
+            class="icon-button lang-button"
+            data-i18n="langButton"
+            data-i18n-aria="langAria"
+            aria-label="Switch to English"
+          >
+            EN
+          </button>
+          <button
+            id="help"
+            class="icon-button help-button"
+            data-i18n-aria="helpAria"
+            aria-label="玩法說明"
+          >
+            <span class="help-long" data-i18n="help">玩法</span
+            ><span class="help-short" aria-hidden="true">?</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="stage">
+        <section
+          class="map-panel"
+          data-i18n-aria="mapAria"
+          aria-label="南海颱風遊戲"
+        >
+          <div class="map-viewport" id="viewport">
+            <canvas
+              id="map"
+              data-i18n-aria="canvasAria"
+              aria-label="遊戲海面：拖曳控制颱風，亦可用方向鍵或 WASD 移動"
+              tabindex="0"
+            ></canvas>
+            <div class="map-corner mono">
+              22°16′ N &nbsp; 114°10′ E<br /><span data-i18n="mapCornerSim"
+                >流體 + 水氣模擬</span
+              >
+            </div>
+            <div class="field-status" id="field-status">
+              <img
+                class="field-boss"
+                id="field-boss"
+                alt=""
+                width="47"
+                height="55"
+              /><span
+                ><span data-i18n="fieldName">李氏力場</span>
+                <b id="field-label">待機中</b
+                ><small id="contact-readout"
+                  >全海面 · 快速回氣 +22.5/s</small
+                ></span
+              >
+            </div>
+            <aside class="notice hidden" id="notice" aria-live="assertive">
+              <img id="notice-face" alt="" width="58" height="58" />
+              <div>
+                <span class="eyebrow" id="notice-eyebrow"></span>
+                <strong id="notice-title"></strong>
+                <p id="notice-body"></p>
+              </div>
+            </aside>
+            <button
+              id="boost"
+              class="boost-button"
+              data-i18n-aria="boostAria"
+              aria-label="借東風衝刺，亦可按空白鍵或 Shift"
+              disabled
+            >
+              <span>↗</span><b data-i18n="boost">借東風</b
+              ><small id="boost-label">SPACE / SHIFT · 衝刺</small>
+            </button>
+            <div class="canvas-hint" id="canvas-hint">
+              <span>↔</span>
+              <span data-i18n="canvasHint">拖曳海面操控颱風</span>
+              <span class="hint-desktop" data-i18n="canvasHintKeys"
+                >／ WASD · 方向鍵</span
+              >
+            </div>
+            <div class="map-legend">
+              <span
+                ><i class="legend-storm"></i>
+                <span data-i18n="legendRing">登陸判定圈</span></span
+              ><span
+                ><i class="legend-field"></i>
+                <span data-i18n="legendField">李氏力場</span></span
+              ><span class="map-scale mono"><i id="scale-bar"></i> 200 km</span>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="score-card" id="status-card">
+            <div class="status-head">
+              <span class="day-clock"
+                ><small>MON</small> <strong id="clock">07:00</strong
+                ><button
+                  id="pause"
+                  data-i18n-aria="pauseAria"
+                  aria-label="暫停遊戲"
+                  disabled
+                >
+                  Ⅱ
+                </button></span
+              >
+              <span class="status-text" id="map-status" data-i18n="mapReady"
+                >南海可見光雲圖 · 流體模擬</span
+              >
+              <button
+                id="status-toggle"
+                class="panel-toggle"
+                aria-expanded="false"
+                aria-controls="status-card"
+                data-i18n-aria="statusToggleAria"
+                aria-label="顯示詳細狀態"
+              >
+                <span aria-hidden="true">▾</span>
+              </button>
+            </div>
+            <div class="held-block">
+              <div class="section-label">
+                <span data-i18n="scoreLabel">八號撐到</span>
+              </div>
+              <div class="score"><span id="held">--:--</span></div>
+              <div class="timeline" aria-hidden="true">
+                <div class="timeline-fill" id="timeline-fill"></div>
+                <i style="left: 9.09%"><b>08</b></i>
+                <i style="left: 63.64%"><b>14</b></i>
+                <i style="left: 72.73%"><b>15</b></i>
+                <i style="left: 100%"><b>18</b></i>
+              </div>
+              <div class="milestone" id="milestone"></div>
+            </div>
+            <div class="signal-row">
+              <span id="signal-icon" class="signal-icon" role="img"></span>
+              <div>
+                <strong id="signal-name">一號戒備</strong
+                ><span id="signal-note">打工仔仲等緊你</span>
+              </div>
+              <span id="wind" class="wind mono"
+                >—<small data-i18n="windUnit">km/h · 香港</small></span
+              >
+            </div>
+            <div class="average-row">
+              <div class="average-label">
+                <span data-i18n="avgLabel">過去一小時平均風速</span>
+                <b class="mono" id="avg">—</b>
+              </div>
+              <div class="average-track">
+                <div id="avg-fill"></div>
+                <i class="gale-mark" title="63 km/h"></i>
+              </div>
+              <div class="average-note" id="avg-note"></div>
+            </div>
+            <div class="strength-row">
+              <span
+                ><small data-i18n="stormLabel">颱風自身強度</small
+                ><strong id="storm-class">強颱風</strong></span
+              ><span
+                ><b class="mono" id="centre-wind">172 km/h</b
+                ><small data-i18n="centreLabel">中心最高持續風速</small></span
+              >
+            </div>
+            <div class="energy-row">
+              <div class="energy-label">
+                <span data-i18n="energyLabel">颱風能量</span
+                ><span class="mono" id="energy-number">78%</span>
+              </div>
+              <div class="energy-track"><div id="energy-fill"></div></div>
+              <div class="energy-note" id="energy-note">
+                全海面 · 每秒 +22.5 能量
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="forum-card"
+            id="forum-card"
+            data-i18n-aria="forumAria"
+            aria-label="虛構討論區實況討論串"
+          >
+            <div class="forum-heading">
+              <span class="forum-board" data-i18n="forumBoard">時事台</span>
+              <strong id="thread-title"></strong>
+              <small><span id="forum-reading"></span></small>
+            </div>
+            <p class="forum-latest" id="forum-latest" aria-hidden="true"></p>
+            <button
+              id="forum-toggle"
+              class="panel-toggle forum-toggle"
+              aria-expanded="false"
+              aria-controls="forum-card"
+              data-i18n-aria="forumToggleAria"
+              aria-label="展開討論區"
+            >
+              <span aria-hidden="true">▴</span>
+            </button>
+            <ol id="forum-posts" class="forum-posts" aria-live="polite"></ol>
+            <div class="forum-typing">
+              <span>···</span> <span data-i18n="forumTyping"></span>
+            </div>
+          </section>
+        </aside>
+      </main>
+
+      <div class="game-overlay" id="overlay">
+        <section
+          class="intro-card"
+          id="intro-card"
+          aria-labelledby="intro-title"
+        >
+          <div class="eyebrow">
+            <span class="tiny-signal" title="No. 8"
+              ><svg viewBox="0 0 100 100" aria-hidden="true">
+                <path
+                  fill="#152e38"
+                  d="M50 4L90 46L10 46ZM50 52L90 94L10 94Z"
+                /></svg
+            ></span>
+            <span data-i18n="introEyebrow">星期一拯救任務</span>
+          </div>
+          <h1 id="intro-title" data-i18n-html="introTitle">
+            呢個風假，<br />自己爭取<span>。</span>
+          </h1>
+          <p data-i18n-html="introBody">
+            你就係個風。<br />突破李氏力場，救救星期一嘅打工仔。
+          </p>
+          <div class="mission-note">
+            <span data-i18n="missionLabel">任務</span>
+            <b data-i18n="mission"
+              >08:00 前掛八號；14:00 前唔好落波；撐過 15:00 就過關。</b
+            >
+          </div>
+          <div class="intro-tip">
+            <img src="favicon.svg" alt="" width="54" height="54" />
+            <p data-i18n="introTip">
+              拖住個風吹去香港！八點未掛八號，全港都要返工㗎。
+            </p>
+          </div>
+          <button id="start" class="primary-button" disabled>
+            <span data-i18n="start">開風！</span>
+            <span aria-hidden="true">↗</span>
+          </button>
+          <div class="intro-foot">
+            <span data-i18n="footRound">一局約 2 分鐘</span
+            ><span data-i18n="footControls">拖曳／方向鍵</span
+            ><span data-i18n="footInstant">即開即玩</span>
+          </div>
+          <div class="intro-brand">
+            <span
+              ><span data-i18n="footerFiction">純屬虛構，認真返工。</span>
+              <span data-i18n="footerNote">
+                天氣資料為遊戲模擬，並非實際警告。</span
+              ></span
+            >
+          </div>
+        </section>
+        <section
+          class="pause-card hidden"
+          id="pause-card"
+          aria-labelledby="pause-title"
+        >
+          <div class="eyebrow">TAKE A BREATHER</div>
+          <h2 id="pause-title" data-i18n="pauseTitle">個風抖緊。</h2>
+          <p data-i18n="pauseBody">打工仔嘅命運，仲喺你手上。</p>
+          <button id="resume" class="primary-button">
+            <span data-i18n="resume">繼續開風</span> <span>↗</span></button
+          ><button id="restart-paused" class="text-button" data-i18n="restart">
+            重新開始
+          </button>
+        </section>
+        <section
+          class="result-card hidden"
+          id="result-card"
+          aria-labelledby="result-title"
+        >
+          <div class="eyebrow" id="result-eyebrow">MONDAY MISSION REPORT</div>
+          <h2 id="result-title"></h2>
+          <div class="result-held">
+            <small data-i18n="heldLabel">八號撐到</small>
+            <strong id="result-time">--:--</strong>
+          </div>
+          <p class="result-outcome" id="result-outcome"></p>
+          <div class="result-boss">
+            <img id="result-boss" alt="" width="50" height="59" />
+            <p>
+              <b data-i18n="bossSays">老細：</b>
+              <span id="result-comment"></span>
+            </p>
+          </div>
+          <p class="result-tip hidden" id="result-tip">
+            <b data-i18n="tipLabel">貼士</b>
+            <span id="result-tip-title"></span>
+            <span id="result-tip-body"></span>
+          </p>
+          <div class="result-actions">
+            <button id="restart" class="primary-button">
+              <span data-i18n="playAgain">再開一個風</span>
+              <span>↗</span></button
+            ><button id="share" class="secondary-button">
+              <span data-i18n="share">分享戰績</span> ↗
+            </button>
+          </div>
+          <div class="share-row" id="share-row">
+            <a
+              id="share-whatsapp"
+              class="share-brand whatsapp"
+              target="_blank"
+              rel="noopener"
+              href="#"
+              ><svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+                /></svg
+              ><span>WhatsApp</span></a
+            >
+            <button id="share-instagram" class="share-brand instagram">
+              <svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"
+                /></svg
+              ><span>Instagram</span>
+            </button>
+            <a
+              id="share-threads"
+              class="share-brand threads"
+              target="_blank"
+              rel="noopener"
+              href="#"
+              ><svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"
+                /></svg
+              ><span>Threads</span></a
+            >
+          </div>
+          <div class="share-tools">
+            <button id="share-download" data-i18n="shareDownload">
+              下載圖片
+            </button>
+            <button id="share-copy" data-i18n="shareCopy">複製文字</button>
+          </div>
+          <span
+            class="share-status"
+            id="share-status"
+            aria-live="polite"
+          ></span>
+        </section>
+      </div>
+    </div>
+
+    <dialog id="help-dialog">
+      <form method="dialog">
+        <button
+          class="close-button"
+          data-i18n-aria="helpClose"
+          aria-label="關閉玩法說明"
+        >
+          ×</button
+        ><span class="eyebrow">HOW TO SAVE A MONDAY</span>
+        <h2 data-i18n="helpTitle">打風，有啲技巧。</h2>
+        <div data-i18n-html="helpBody"></div>
+        <button class="primary-button">
+          <span data-i18n="helpOk">收到，開風！</span> <span>↗</span>
+        </button>
+      </form>
+    </dialog>
+    <script type="module" src="game.js"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>李氏力場 · Mr. Li's Force Field</title>
+  <g transform="translate(-14 2)">
+  <g stroke="#152e38" stroke-width="14" stroke-linejoin="round">
+    <path fill="#8b5a3c" d="M98 230 L102 92 L112 52 L126 82 L140 40 L152 76 L166 56 L170 98 L172 230 Z"/>
+    <path fill="#f3d7a2" stroke="none" d="M112 98 L116 72 L126 96 L140 60 L150 92 L162 78 L162 102 Z"/>
+  </g>
+  <path fill="#7bb06a" stroke="#152e38" stroke-width="5" stroke-linejoin="round" transform="translate(222 52) rotate(28) scale(2.6)" d="M-14 0 C-8 -10 8 -10 14 0 C8 10 -8 10 -14 0 Z"/>
+  <g transform="rotate(-6 224 318)">
+    <rect x="85" y="179" width="312" height="312" rx="37.44" fill="#152e38"/>
+    <rect x="68" y="162" width="312" height="312" rx="37.44" fill="#f3be55" stroke="#152e38" stroke-width="19"/>
+    <g fill="#152e38" stroke="#152e38" stroke-width="5" stroke-linejoin="round" transform="translate(224 322) scale(2.15) translate(-50 -49)">
+      <path d="M50 4 L90 46 L10 46 Z"/>
+      <path d="M50 52 L90 94 L10 94 Z"/>
+    </g>
+  </g>
+  </g>
+</svg>

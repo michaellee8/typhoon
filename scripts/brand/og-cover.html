@@ -1,0 +1,255 @@
+<!doctype html>
+<!-- 1200×630 social cover. Rendered by scripts/build-brand.mjs, which
+     replaces the LOGO and COAST placeholders before screenshotting. -->
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #0f2233;
+      }
+      #sea {
+        position: absolute;
+        inset: 0;
+      }
+      .card {
+        position: absolute;
+        left: 306px;
+        top: 140px;
+        width: 320px;
+        height: 320px;
+        background: #f3f1e8;
+        border-radius: 22px;
+        transform: rotate(-4deg);
+        box-shadow:
+          10px 12px 0 #0a1622,
+          0 24px 60px rgba(0, 0, 0, 0.45);
+      }
+      .card svg {
+        position: absolute;
+        inset: 10px;
+        width: 300px;
+        height: 300px;
+      }
+      .title {
+        position: absolute;
+        left: 656px;
+        top: 118px;
+        width: 260px;
+        color: #f3f1e8;
+        font-family: "Noto Sans CJK HK", "Noto Sans CJK TC", sans-serif;
+      }
+      .kicker {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font:
+          700 13px/1 "Liberation Mono",
+          "DejaVu Sans Mono",
+          monospace;
+        letter-spacing: 2px;
+        color: #c8d3cc;
+      }
+      .kicker svg {
+        flex: none;
+        width: 20px;
+        height: 20px;
+      }
+      h1 {
+        margin: 14px 0 0;
+        font-size: 124px;
+        line-height: 1.02;
+        font-weight: 700;
+        letter-spacing: -2px;
+        text-shadow: 4px 5px 0 #0a1622;
+      }
+      h1 span {
+        display: block;
+      }
+      h1 .amber {
+        color: #f3be55;
+      }
+      .en {
+        margin-top: 14px;
+        font:
+          700 25px/1 "Liberation Sans",
+          "Noto Sans",
+          sans-serif;
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+      }
+      .tagline {
+        margin-top: 16px;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        color: #f3be55;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="sea" width="1200" height="630"></canvas>
+    <div class="card"><!--LOGO--></div>
+    <div class="title">
+      <div class="kicker">
+        <!-- HKO No. 8 Northeast signal (public/signals.js SIGNAL_SHAPES["8NE"]) -->
+        <svg viewBox="0 0 100 100" aria-label="No. 8 signal">
+          <rect width="100" height="100" rx="14" fill="#f3be55" />
+          <path
+            fill="#152e38"
+            transform="translate(50 50) scale(0.72) translate(-50 -49)"
+            d="M50 4 L90 46 L10 46 Z M50 52 L90 94 L10 94 Z"
+          />
+        </svg>
+        MONDAY RESCUE MISSION
+      </div>
+      <h1><span>李氏</span><span class="amber">力場</span></h1>
+      <div class="en">Mr. Li's Force Field</div>
+      <div class="tagline">呢個風假，自己爭取。</div>
+    </div>
+    <script>
+      const COAST = /*COAST*/ null;
+      const W = 1200;
+      const H = 630;
+      const ctx = document.getElementById("sea").getContext("2d");
+      // Map units (public/coast.json, 1000×840) → cover pixels.
+      const S = 2.5;
+      const HK = { x: 438.5, y: 286.3 };
+      const OX = 1062 - HK.x * S;
+      const OY = 176 - HK.y * S;
+      const hk = { x: OX + HK.x * S, y: OY + HK.y * S };
+      // Seeded random so the cover is reproducible.
+      let seed = 8;
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+
+      // Sea
+      const sea = ctx.createRadialGradient(760, 300, 60, 640, 315, 820);
+      sea.addColorStop(0, "#1d3a5e");
+      sea.addColorStop(0.55, "#15294d");
+      sea.addColorStop(1, "#0b1628");
+      ctx.fillStyle = sea;
+      ctx.fillRect(0, 0, W, H);
+
+      // Graticule
+      ctx.strokeStyle = "rgba(200,220,235,0.07)";
+      ctx.lineWidth = 1;
+      for (let x = -40; x < W; x += 96) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, H);
+        ctx.stroke();
+      }
+      for (let y = 30; y < H; y += 96) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.stroke();
+      }
+
+      // Land
+      ctx.save();
+      ctx.translate(OX, OY);
+      ctx.scale(S, S);
+      ctx.beginPath();
+      for (const ring of COAST || []) {
+        ring.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+        ctx.closePath();
+      }
+      ctx.fillStyle = "#2a4038";
+      ctx.fill("evenodd");
+      ctx.lineWidth = 1.4 / S;
+      ctx.strokeStyle = "rgba(170,200,170,0.45)";
+      ctx.stroke();
+      ctx.restore();
+
+      // Typhoon: spiral cloud bands south-east of Hong Kong
+      function typhoon(cx, cy, R) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.filter = "blur(5px)";
+        for (let arm = 0; arm < 4; arm++) {
+          for (let i = 0; i < 160; i++) {
+            const t = i / 160;
+            const r = 16 + t * R;
+            const a = arm * (Math.PI / 2) + t * 5.2;
+            const w = (1 - t) * 34 + 6;
+            ctx.fillStyle = `rgba(236,242,248,${0.1 * (1 - t) + 0.02})`;
+            ctx.beginPath();
+            ctx.ellipse(
+              Math.cos(a) * r + (rnd() - 0.5) * 8,
+              Math.sin(a) * r * 0.92 + (rnd() - 0.5) * 8,
+              w,
+              w * 0.6,
+              a + 1.2,
+              0,
+              Math.PI * 2,
+            );
+            ctx.fill();
+          }
+        }
+        ctx.filter = "blur(10px)";
+        const core = ctx.createRadialGradient(0, 0, 8, 0, 0, R * 0.55);
+        core.addColorStop(0, "rgba(240,245,250,0)");
+        core.addColorStop(0.12, "rgba(240,245,250,0.75)");
+        core.addColorStop(0.5, "rgba(230,238,246,0.35)");
+        core.addColorStop(1, "rgba(230,238,246,0)");
+        ctx.fillStyle = core;
+        ctx.beginPath();
+        ctx.arc(0, 0, R * 0.55, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.filter = "none";
+        ctx.filter = "blur(2px)";
+        ctx.fillStyle = "rgba(22,48,79,0.85)";
+        ctx.beginPath();
+        ctx.arc(0, 0, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.filter = "none";
+        ctx.restore();
+      }
+      typhoon(1090, 540, 250);
+
+      // 李氏力場: a force-field dome around Hong Kong
+      ctx.save();
+      const dome = ctx.createRadialGradient(hk.x, hk.y, 20, hk.x, hk.y, 112);
+      dome.addColorStop(0, "rgba(120,220,230,0.0)");
+      dome.addColorStop(0.75, "rgba(120,220,230,0.10)");
+      dome.addColorStop(1, "rgba(120,220,230,0.28)");
+      ctx.fillStyle = dome;
+      ctx.beginPath();
+      ctx.arc(hk.x, hk.y, 112, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.setLineDash([10, 8]);
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "rgba(150,232,240,0.75)";
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#f3be55";
+      ctx.beginPath();
+      ctx.arc(hk.x, hk.y, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Darken behind the title + logo, then vignette
+      const shade = ctx.createLinearGradient(240, 0, 960, 0);
+      shade.addColorStop(0, "rgba(8,18,30,0)");
+      shade.addColorStop(0.25, "rgba(8,18,30,0.45)");
+      shade.addColorStop(0.75, "rgba(8,18,30,0.45)");
+      shade.addColorStop(1, "rgba(8,18,30,0)");
+      ctx.fillStyle = shade;
+      ctx.fillRect(0, 0, W, H);
+      const vig = ctx.createRadialGradient(600, 315, 260, 600, 315, 760);
+      vig.addColorStop(0, "rgba(5,12,22,0)");
+      vig.addColorStop(1, "rgba(5,12,22,0.6)");
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, W, H);
+
+      document.fonts.ready.then(() => (window.__brandReady = true));
+    </script>
+  </body>
+</html>

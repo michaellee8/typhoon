@@ -1,0 +1,20 @@
+{
+  "name": "typhoon",
+  "version": "1.0.0",
+  "private": true,
+  "description": "李氏力場 · Mr. Li's Force Field: steer a typhoon past Hong Kong's legendary force field and win a T8 day off.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs 8080",
+    "test": "node scripts/check-weather.mjs && node scripts/check-rules.mjs && node scripts/check-atmosphere.mjs",
+    "check": "pnpm test && node scripts/check.mjs",
+    "brand": "node scripts/build-brand.mjs",
+    "voice": "node scripts/build-hko-voice.mjs",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1",
+    "prettier": "^3.9.10",
+    "sharp": "^0.35.5"
+  }
+}
